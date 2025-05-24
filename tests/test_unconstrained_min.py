@@ -74,10 +74,10 @@ class TestUnconstrainedMin(unittest.TestCase):
         )
 
     def test_linear(self):
-        a = np.array([1.0, 1.0])
+        a = np.array([3.0, 2.0])
         func = LinearFunction(a)
         self.run_example(
-            func, np.array([3.0, 2.0]), self.max_iter, "Linear", "linear", scope=100
+            func, np.array([1.0, 1.0]), self.max_iter, "Linear", "linear", scope=300
         )
 
     def test_exponential(self):
