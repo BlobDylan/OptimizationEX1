@@ -17,9 +17,9 @@ def plot_contour(
     max_Z = np.max(Z)
 
     if level_spacing == "log":
-        levels = np.logspace(np.log10(min_Z + 1e-6), np.log10(max_Z), 30)
+        levels = np.logspace(np.log10(min_Z + 1e-6), np.log10(max_Z), 40)
     elif level_spacing == "linear":
-        levels = np.linspace(min_Z, max_Z, 30)
+        levels = np.linspace(min_Z, max_Z, 40)
     else:
         raise ValueError("level_spacing must be 'log' or 'linear'")
 
