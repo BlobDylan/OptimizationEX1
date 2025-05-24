@@ -19,7 +19,7 @@ This project is the first programming assignment for the **Numerical Optimizatio
 1. **Clone the repository**
 
    ```bash
-   git clone <your-repo-url>
+   git clone https://github.com/BlobDylan/OptimizationEX1
    cd <repo-directory>
    ```
 
