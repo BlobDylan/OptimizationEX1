@@ -18,7 +18,7 @@ class TestUnconstrainedMin(unittest.TestCase):
         self.max_iter = 100
         self.rosenbrock_max_iter = 10000
 
-    def run_example(self, func, x0, max_iter, example_name):
+    def run_example(self, func, x0, max_iter, example_name, level_spacing):
         gd = GradientDescent(func, x0, self.obj_tol, self.param_tol, max_iter)
         x_gd, f_gd, success_gd, hist_gd = gd.minimize()
         nt = NewtonMethod(func, x0, self.obj_tol, self.param_tol, max_iter)
@@ -29,6 +29,7 @@ class TestUnconstrainedMin(unittest.TestCase):
             [-2, 2],
             {"GD": hist_gd, "Newton": hist_nt},
             f"{example_name} Contour",
+            level_spacing=level_spacing,
         )
         plt.savefig(f"{example_name}_contour.png")
         plt.close()
@@ -43,33 +44,45 @@ class TestUnconstrainedMin(unittest.TestCase):
     def test_quadratic1(self):
         Q = np.eye(2)
         func = QuadraticFunction(Q)
-        self.run_example(func, np.array([1.0, 1.0]), self.max_iter, "Quadratic1")
+        self.run_example(
+            func, np.array([1.0, 1.0]), self.max_iter, "Quadratic1", "linear"
+        )
 
     def test_quadratic2(self):
         Q = np.diag([1, 100])
         func = QuadraticFunction(Q)
-        self.run_example(func, np.array([1.0, 1.0]), self.max_iter, "Quadratic2")
+        self.run_example(
+            func, np.array([1.0, 1.0]), self.max_iter, "Quadratic2", "linear"
+        )
 
     def test_quadratic3(self):
         rotation = np.array([[np.sqrt(3) / 2, -0.5], [0.5, np.sqrt(3) / 2]])
         Q = rotation.T @ np.diag([100, 1]) @ rotation
         func = QuadraticFunction(Q)
-        self.run_example(func, np.array([1.0, 1.0]), self.max_iter, "Quadratic3")
+        self.run_example(
+            func, np.array([1.0, 1.0]), self.max_iter, "Quadratic3", "linear"
+        )
 
     def test_rosenbrock(self):
         func = RosenbrockFunction()
         self.run_example(
-            func, np.array([-1.0, 2.0]), self.rosenbrock_max_iter, "Rosenbrock"
+            func,
+            np.array([-1.0, 2.0]),
+            self.rosenbrock_max_iter,
+            "Rosenbrock",
+            "linear",
         )
 
     def test_linear(self):
         a = np.array([2.0, 3.0])
         func = LinearFunction(a)
-        self.run_example(func, np.array([1.0, 1.0]), self.max_iter, "Linear")
+        self.run_example(func, np.array([1.0, 1.0]), self.max_iter, "Linear", "linear")
 
     def test_exponential(self):
         func = ExponentialFunction()
-        self.run_example(func, np.array([1.0, 1.0]), self.max_iter, "Exponential")
+        self.run_example(
+            func, np.array([1.0, 1.0]), self.max_iter, "Exponential", "log"
+        )
 
 
 if __name__ == "__main__":

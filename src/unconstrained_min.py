@@ -1,9 +1,10 @@
 import numpy as np
 from abc import ABC, abstractmethod
+from tests.examples import Function
 
 
 class LineSearch(ABC):
-    def __init__(self, f, x0, obj_tol, param_tol, max_iter):
+    def __init__(self, f: Function, x0, obj_tol, param_tol, max_iter):
         self.f = f
         self.x0 = x0
         self.obj_tol = obj_tol
@@ -45,11 +46,10 @@ class GradientDescent(LineSearch):
         x = self.current_x
         fx = self.current_fx
         g = self.f.gradient(x)
-        d = -g  # Descent direction
+        d = -g
         alpha = self.backtracking(x, d, fx, g)
         new_x = x + alpha * d
         new_fx = self.f.objective(new_x)
-        # Check convergence
         if abs(new_fx - fx) < self.obj_tol:
             self.success = True
             self.output_message = "Objective tolerance met."
@@ -58,7 +58,6 @@ class GradientDescent(LineSearch):
             self.success = True
             self.output_message = "Parameter tolerance met."
             return False
-        # Update state
         self.current_x = new_x
         self.current_fx = new_fx
         self.history.append((new_x.copy(), new_fx))

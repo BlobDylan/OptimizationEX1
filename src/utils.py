@@ -2,7 +2,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def plot_contour(func, x_lim, y_lim, paths=None, title="Contour Plot"):
+def plot_contour(
+    func, x_lim, y_lim, paths=None, title="Contour Plot", level_spacing="log"
+):
     x = np.linspace(x_lim[0], x_lim[1], 400)
     y = np.linspace(y_lim[0], y_lim[1], 400)
     X, Y = np.meshgrid(x, y)
@@ -13,7 +15,13 @@ def plot_contour(func, x_lim, y_lim, paths=None, title="Contour Plot"):
 
     min_Z = np.min(Z)
     max_Z = np.max(Z)
-    levels = np.logspace(np.log10(min_Z + 1e-6), np.log10(max_Z), 30)
+
+    if level_spacing == "log":
+        levels = np.logspace(np.log10(min_Z + 1e-6), np.log10(max_Z), 30)
+    elif level_spacing == "linear":
+        levels = np.linspace(min_Z, max_Z, 30)
+    else:
+        raise ValueError("level_spacing must be 'log' or 'linear'")
 
     plt.contour(X, Y, Z, levels=levels, cmap="viridis")
     if paths:
